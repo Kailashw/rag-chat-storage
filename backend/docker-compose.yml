@@ -17,8 +17,8 @@ services:
     image: dpage/pgadmin4
     container_name: rag-pgadmin
     environment:
-      PGADMIN_DEFAULT_EMAIL: admin@rag.local
-      PGADMIN_DEFAULT_PASSWORD: admin
+      PGADMIN_DEFAULT_EMAIL: postgres
+      PGADMIN_DEFAULT_PASSWORD: 1234
     ports:
       - "5050:80"
     depends_on:
@@ -37,6 +37,30 @@ services:
     depends_on:
       - postgres
 
+  python-retriever:
+    build: ../python-retriever
+    container_name: rag-retriever
+    ports:
+      - "8001:8001"
+    volumes:
+      - chromadb:/app/chroma
+
+  rag-gateway:
+    build: ../rag-gateway
+    container_name: rag-gateway
+    ports:
+      - "3001:3000"
+    depends_on:
+      - backend
+      - python-retriever
+    environment:
+      STORAGE_API_KEY: storage-api-key
+      STORAGE_API_URL: http://backend:3000
+      GROQ_API_KEY: your-groq-api-key
+      PYTHON_RETRIEVER_URL: http://python-retriever:8001
+
 
 volumes:
   pgdata:
+  chromadb:
+
