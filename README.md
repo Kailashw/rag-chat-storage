@@ -13,12 +13,7 @@ A full Retrieval-Augmented Generation system combining:
 
 ## 📐 Architecture
 
-```
-User → RAG Gateway (NestJS)
-       ├─▶ /embed/query → Python Retriever (FastAPI + Chroma)
-       ├─▶ /chat/completions → Groq API (LLM inference)
-       └─▶ /messages        → Chat Storage Service (NestJS + PostgreSQL)
-```
+![Architecture Diagram](user_flow.png)
 
 ---
 
