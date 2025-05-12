@@ -1,18 +1,39 @@
 import { Test, TestingModule } from '@nestjs/testing';
+import { ChatSessionController } from './chat-session.controller';
 import { ChatSessionService } from './chat-session.service';
 
-describe('ChatSessionService', () => {
-  let service: ChatSessionService;
+describe('ChatSessionController', () => {
+  let controller: ChatSessionController;
+
+  const mockChatSessionService = {
+    createSession: jest.fn().mockResolvedValue({ id: '1', userId: 'user1', title: 'My Chat' }),
+    renameSession: jest.fn(),
+    markFavorite: jest.fn(),
+    deleteSession: jest.fn(),
+    getSessions: jest.fn(),
+  };
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      providers: [ChatSessionService],
+      controllers: [ChatSessionController],
+      providers: [
+        {
+          provide: ChatSessionService,
+          useValue: mockChatSessionService,
+        },
+      ],
     }).compile();
 
-    service = module.get<ChatSessionService>(ChatSessionService);
+    controller = module.get<ChatSessionController>(ChatSessionController);
   });
 
   it('should be defined', () => {
-    expect(service).toBeDefined();
+    expect(controller).toBeDefined();
+  });
+
+  it('should create a session', async () => {
+    const dto = { userId: 'user1', title: 'My Chat' };
+    const result = await controller.create(dto);
+    expect(result).toEqual({ id: '1', userId: 'user1', title: 'My Chat' });
   });
 });
