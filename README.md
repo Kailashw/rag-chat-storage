@@ -53,16 +53,20 @@ Accessible at:
 
 ---
 
-## 🧪 Postman API Flow
+### 3. Prisma Migration and Restart services.
+Run below command in Storage(Backend) service with in docker command prompt.
+```
+npx prisma migrate deploy
+```
+and then restart the services.
 
-Import Postman:
-- [`RAG_Chat_Storage_Postman_Collection.json`](./RAG_Chat_Storage_Postman_Collection.json)
-- [`rag_local_postman_environment.json`](./rag_local_postman_environment.json)
+## API Flow
 
 Example Flow:
 1. Create Session
-2. POST `/rag/ask` → Question
-3. View stored messages
+2. Add few messages
+3. POST `/rag/ask` → Question
+4. View stored messages
 
 ---
 
