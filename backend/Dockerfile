@@ -13,6 +13,7 @@ COPY . .
 
 # Build the project
 RUN npm run build
+RUN npx prisma generate
 
 # Expose the NestJS port
 EXPOSE 3000
