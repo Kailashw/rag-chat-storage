@@ -1,7 +1,7 @@
 import { Body, Controller, Get, Param, Post, Query } from '@nestjs/common';
 import { ChatMessageService } from './chat-message.service';
 import { CreateMessageDto } from './dto/create-message.dto';
-import { ApiHeader, ApiTags } from '@nestjs/swagger';
+import { ApiBody, ApiHeader, ApiOperation, ApiTags } from '@nestjs/swagger';
 
 @ApiTags('Chat Messages')
 @ApiHeader({
@@ -14,6 +14,8 @@ export class ChatMessageController {
   constructor(private readonly chatMessageService: ChatMessageService) {}
 
   @Post()
+  @ApiOperation({ summary: 'Add a new message to a session' })
+  @ApiBody({ type: CreateMessageDto })
   create(@Body() dto: CreateMessageDto) {
     return this.chatMessageService.addMessage(dto);
   }
